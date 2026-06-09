@@ -53,7 +53,7 @@ resource "aws_security_group" "opsflow_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["148.252.147.227/32"]
+    cidr_blocks = ["148.252.147.108/32"]
   }
 
   ingress {
