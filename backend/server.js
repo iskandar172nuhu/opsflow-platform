@@ -137,6 +137,37 @@ app.get("/api/employees", authMiddleware, async (req, res) => {
   }
 });
 
+// Dashboard metrics
+app.get("/api/dashboard", authMiddleware, async (req, res) => {
+  try {
+    const totalTickets = await pool.query(
+      "SELECT COUNT(*) FROM tickets"
+    );
+
+    const openTickets = await pool.query(
+      "SELECT COUNT(*) FROM tickets WHERE status = 'Open'"
+    );
+
+    const resolvedTickets = await pool.query(
+      "SELECT COUNT(*) FROM tickets WHERE status = 'Resolved'"
+    );
+
+    const totalEmployees = await pool.query(
+      "SELECT COUNT(*) FROM employees"
+    );
+
+    res.json({
+      totalTickets: totalTickets.rows[0].count,
+      openTickets: openTickets.rows[0].count,
+      resolvedTickets: resolvedTickets.rows[0].count,
+      totalEmployees: totalEmployees.rows[0].count,
+    });
+  } catch (error) {
+    console.error("Dashboard metrics error:", error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // Health check
 app.get("/", (req, res) => {
   res.json({ message: "OpsFlow API is running" });

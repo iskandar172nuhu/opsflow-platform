@@ -1,6 +1,28 @@
+import { useEffect, useState } from "react";
+import api from "../services/api";
 import AppLayout from "../layouts/AppLayout";
 
 function Dashboard() {
+  const [metrics, setMetrics] = useState({
+    totalTickets: 0,
+    openTickets: 0,
+    resolvedTickets: 0,
+    totalEmployees: 0,
+  });
+
+  useEffect(() => {
+    fetchMetrics();
+  }, []);
+
+  const fetchMetrics = async () => {
+    try {
+      const response = await api.get("/dashboard");
+      setMetrics(response.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   const cardStyle = {
     background: "#1f2937",
     padding: "20px",
@@ -22,23 +44,23 @@ function Dashboard() {
         }}
       >
         <div style={cardStyle}>
-          <h2>24</h2>
+          <h2>{metrics.totalTickets}</h2>
+          <p>Total Tickets</p>
+        </div>
+
+        <div style={cardStyle}>
+          <h2>{metrics.openTickets}</h2>
           <p>Open Tickets</p>
         </div>
 
         <div style={cardStyle}>
-          <h2>12</h2>
-          <p>Employees Active</p>
+          <h2>{metrics.resolvedTickets}</h2>
+          <p>Resolved Tickets</p>
         </div>
 
         <div style={cardStyle}>
-          <h2>8</h2>
-          <p>Pending Tasks</p>
-        </div>
-
-        <div style={cardStyle}>
-          <h2>99.9%</h2>
-          <p>System Uptime</p>
+          <h2>{metrics.totalEmployees}</h2>
+          <p>Total Employees</p>
         </div>
       </div>
     </AppLayout>
