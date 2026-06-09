@@ -96,6 +96,7 @@ resource "aws_security_group" "opsflow_sg" {
 resource "aws_instance" "opsflow_server" {
   ami                         = "ami-091f18e98bc129c4e"
   instance_type               = "t2.micro"
+  key_name                    = "opsflow-key"
   subnet_id                   = aws_subnet.public_subnet.id
   vpc_security_group_ids      = [aws_security_group.opsflow_sg.id]
   associate_public_ip_address = true
