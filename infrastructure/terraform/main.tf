@@ -105,3 +105,12 @@ resource "aws_instance" "opsflow_server" {
     Name = "${var.project_name}-server"
   }
 }
+
+resource "aws_eip" "opsflow_eip" {
+  instance = aws_instance.opsflow_server.id
+  domain   = "vpc"
+
+  tags = {
+    Name = "${var.project_name}-eip"
+  }
+}
