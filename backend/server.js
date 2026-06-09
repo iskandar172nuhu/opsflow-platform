@@ -5,6 +5,7 @@ const cors = require("cors");
 const pool = require("./config/db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const authMiddleware = require("./middleware/auth");
 
 const app = express();
 
@@ -81,7 +82,7 @@ app.post("/api/auth/login", async (req, res) => {
 });
 
 // Get all tickets
-app.get("/api/tickets", async (req, res) => {
+app.get("/api/tickets", authMiddleware, async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM tickets ORDER BY id ASC");
     res.json(result.rows);
@@ -92,7 +93,7 @@ app.get("/api/tickets", async (req, res) => {
 });
 
 // Create ticket
-app.post("/api/tickets", async (req, res) => {
+app.post("/api/tickets", authMiddleware, async (req, res) => {
   try {
     const { issue, priority, status } = req.body;
 
@@ -109,7 +110,7 @@ app.post("/api/tickets", async (req, res) => {
 });
 
 // Delete ticket
-app.delete("/api/tickets/:id", async (req, res) => {
+app.delete("/api/tickets/:id", authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
 
