@@ -92,3 +92,15 @@ resource "aws_security_group" "opsflow_sg" {
     Name = "${var.project_name}-sg"
   }
 }
+
+resource "aws_instance" "opsflow_server" {
+  ami                         = "ami-091f18e98bc129c4e"
+  instance_type               = "t2.micro"
+  subnet_id                   = aws_subnet.public_subnet.id
+  vpc_security_group_ids      = [aws_security_group.opsflow_sg.id]
+  associate_public_ip_address = true
+
+  tags = {
+    Name = "${var.project_name}-server"
+  }
+}
