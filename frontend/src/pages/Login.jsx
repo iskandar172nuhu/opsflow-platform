@@ -19,6 +19,11 @@ function Login() {
         password,
       });
 
+      localStorage.setItem(
+        "user",
+        JSON.stringify(response.data.user)
+      );
+
       login(response.data.token);
       navigate("/dashboard");
     } catch (error) {

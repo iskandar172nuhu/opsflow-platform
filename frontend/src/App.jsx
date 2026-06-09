@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
+import AdminRoute from "./components/AdminRoute";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -45,7 +46,9 @@ function App() {
         path="/employees"
         element={
           <ProtectedRoute>
-            <Employees />
+            <AdminRoute>
+              <Employees />
+            </AdminRoute>
           </ProtectedRoute>
         }
       />
