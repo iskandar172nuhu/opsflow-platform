@@ -1,30 +1,28 @@
+import { useEffect, useState } from "react";
+import api from "../services/api";
 import AppLayout from "../layouts/AppLayout";
 
 function Employees() {
-  const employees = [
-    {
-      id: 1,
-      name: "John Doe",
-      role: "Cloud Engineer",
-      status: "Active",
-    },
-    {
-      id: 2,
-      name: "Sarah Smith",
-      role: "DevOps Engineer",
-      status: "On Leave",
-    },
-    {
-      id: 3,
-      name: "Michael Brown",
-      role: "Support Engineer",
-      status: "Active",
-    },
-  ];
+  const [employees, setEmployees] = useState([]);
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  const fetchEmployees = async () => {
+    try {
+      const response = await api.get("/employees");
+      setEmployees(response.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <AppLayout>
-      <h1 style={{ fontSize: "48px", marginBottom: "20px" }}>Employees</h1>
+      <h1 style={{ fontSize: "48px", marginBottom: "20px" }}>
+        Employees
+      </h1>
 
       <div
         style={{
@@ -37,11 +35,21 @@ function Employees() {
         {employees.map((employee) => (
           <div key={employee.id} style={cardStyle}>
             <h2>{employee.name}</h2>
-            <p>{employee.role}</p>
 
             <p
               style={{
-                color: employee.status === "Active" ? "#22c55e" : "#f59e0b",
+                color: "#cbd5e1",
+              }}
+            >
+              {employee.role}
+            </p>
+
+            <p
+              style={{
+                color:
+                  employee.status === "Active"
+                    ? "#22c55e"
+                    : "#f59e0b",
                 fontWeight: "bold",
               }}
             >

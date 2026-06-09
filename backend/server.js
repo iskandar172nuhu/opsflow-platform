@@ -123,6 +123,20 @@ app.delete("/api/tickets/:id", authMiddleware, async (req, res) => {
   }
 });
 
+// Get all employees
+app.get("/api/employees", authMiddleware, async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM employees ORDER BY id ASC"
+    );
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Get employees error:", error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // Health check
 app.get("/", (req, res) => {
   res.json({ message: "OpsFlow API is running" });
