@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Sidebar() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    logout();
     navigate("/");
   };
 
@@ -57,23 +59,22 @@ function Sidebar() {
         </ul>
       </div>
 
-      <button
-        onClick={handleLogout}
-        style={{
-          padding: "12px",
-          width: "100%",
-          background: "#dc2626",
-          color: "white",
-          border: "none",
-          borderRadius: "6px",
-          cursor: "pointer",
-          fontSize: "16px",
-        }}
-      >
+      <button onClick={handleLogout} style={logoutButtonStyle}>
         Logout
       </button>
     </div>
   );
 }
+
+const logoutButtonStyle = {
+  padding: "12px",
+  width: "100%",
+  background: "#dc2626",
+  color: "white",
+  border: "none",
+  borderRadius: "6px",
+  cursor: "pointer",
+  fontSize: "16px",
+};
 
 export default Sidebar;

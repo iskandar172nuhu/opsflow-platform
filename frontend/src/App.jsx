@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -6,34 +7,56 @@ import Tickets from "./pages/Tickets";
 import Employees from "./pages/Employees";
 import Settings from "./pages/Settings";
 
+function ProtectedRoute({ children }) {
+  const { isAuthenticated } = useAuth();
+
+  return isAuthenticated ? children : <Navigate to="/" />;
+}
+
 function App() {
-  const token = localStorage.getItem("token");
+  const { isAuthenticated } = useAuth();
 
   return (
     <Routes>
       <Route
         path="/"
-        element={token ? <Navigate to="/dashboard" /> : <Login />}
+        element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />}
       />
 
       <Route
         path="/dashboard"
-        element={token ? <Dashboard /> : <Navigate to="/" />}
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/tickets"
-        element={token ? <Tickets /> : <Navigate to="/" />}
+        element={
+          <ProtectedRoute>
+            <Tickets />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/employees"
-        element={token ? <Employees /> : <Navigate to="/" />}
+        element={
+          <ProtectedRoute>
+            <Employees />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/settings"
-        element={token ? <Settings /> : <Navigate to="/" />}
+        element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        }
       />
     </Routes>
   );
