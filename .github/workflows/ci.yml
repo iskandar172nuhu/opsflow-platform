@@ -52,5 +52,20 @@ jobs:
       - name: Install backend dependencies
         run: npm install
 
-      - name: Check backend starts
+      - name: Check backend syntax
         run: node -c server.js
+
+  docker-build:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    needs: [frontend-build, backend-build]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build frontend Docker image
+        run: docker build -t opsflow-frontend ./frontend
+
+      - name: Build backend Docker image
+        run: docker build -t opsflow-backend ./backend
