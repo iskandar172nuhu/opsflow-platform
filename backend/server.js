@@ -6,14 +6,25 @@ const pool = require("./config/db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("./middleware/auth");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(helmet());
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: {
+    message: "Too many login attempts. Please try again later.",
+  },
+});
 
 // Register user
-app.post("/api/auth/register", async (req, res) => {
+app.post("/api/auth/register", authLimiter, async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
@@ -34,7 +45,7 @@ app.post("/api/auth/register", async (req, res) => {
 });
 
 // Login user
-app.post("/api/auth/login", async (req, res) => {
+app.post("/api/auth/login", authLimiter, async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -60,7 +71,7 @@ app.post("/api/auth/login", async (req, res) => {
         email: user.email,
         role: user.role,
       },
-      process.env.JWT_SECRET || "fallback_secret_key",
+      process.env.JWT_SECRET,
       {
         expiresIn: "1h",
       }
