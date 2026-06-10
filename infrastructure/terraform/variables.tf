@@ -5,3 +5,8 @@ variable "aws_region" {
 variable "project_name" {
   default = "opsflow"
 }
+
+variable "dockerhub_username" {
+  description = "Docker Hub username"
+  type        = string
+}
