@@ -13,3 +13,7 @@ output "server_public_ip" {
 output "elastic_ip" {
   value = aws_eip.opsflow_eip.public_ip
 }
+
+output "alb_dns_name" {
+  value = aws_lb.opsflow_alb.dns_name
+}
