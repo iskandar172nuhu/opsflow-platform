@@ -43,6 +43,10 @@ The platform consists of:
 
 # Architecture
 
+## Architecture Diagram
+
+![Architecture Diagram](screenshots/architecture-diagram.png)
+
 ## AWS Infrastructure Components
 
 * VPC
