@@ -17,3 +17,7 @@ output "elastic_ip" {
 output "alb_dns_name" {
   value = aws_lb.opsflow_alb.dns_name
 }
+
+output "rds_endpoint" {
+  value = aws_db_instance.opsflow_db.address
+}

@@ -95,7 +95,7 @@ resource "aws_ecs_task_definition" "backend_task" {
       ]
 
       environment = [
-        { name = "DB_HOST", value = "database" },
+        { name = "DB_HOST", value = aws_db_instance.opsflow_db.address },
         { name = "DB_USER", value = "postgres" },
         { name = "DB_PASSWORD", value = "password" },
         { name = "DB_NAME", value = "opsflow" },
