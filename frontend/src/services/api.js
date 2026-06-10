@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5050/api",
+  baseURL: "http://opsflow-alb-489271614.eu-west-2.elb.amazonaws.com/api",
 });
 
 api.interceptors.request.use((config) => {
